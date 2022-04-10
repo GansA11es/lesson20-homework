@@ -1,6 +1,5 @@
 package com.example.lessson17
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,7 +22,6 @@ class CreateCounterActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     fun createCounter() {
         val errorText = findViewById<TextView>(R.id.textViewError)
         errorText.text = null
@@ -36,7 +34,7 @@ class CreateCounterActivity : AppCompatActivity() {
             valueNotBlanked(counterValue)
         ) {
             val counterActivity = Intent(this, CounterActivity::class.java)
-            counterActivity.putExtra("counterValue", counterValue.text.toString())
+            counterActivity.putExtra("counterValue", counterValue.text.toString().toInt())
             counterActivity.putExtra("textColor", textColor.text.toString().lowercase())
             counterActivity.putExtra("bckgrndColor", backgroundColor.text.toString())
 

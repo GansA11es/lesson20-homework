@@ -1,6 +1,5 @@
 package com.example.lessson17
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,7 +14,6 @@ class InfoActivity : AppCompatActivity() {
 
     private lateinit var infoTextView: TextView
 
-    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info)
@@ -23,7 +21,6 @@ class InfoActivity : AppCompatActivity() {
         Log.d(TAG, "Activity create")
 
         infoTextView = findViewById(R.id.textView)
-
     }
 
     fun info(view: View) {

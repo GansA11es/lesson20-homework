@@ -1,6 +1,5 @@
 package com.example.lessson17
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -12,13 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 
 class CounterActivity : AppCompatActivity() {
 
-    private var counter = INITIAL_COUNTER_VALUE
+    private var counterValue = INITIAL_COUNTER_VALUE
     private var backGroundColor: String? = null
     private var txtColor: String? = null
     private lateinit var infoTextView: TextView
     private lateinit var rootView: View
 
-    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_counter)
@@ -28,20 +26,20 @@ class CounterActivity : AppCompatActivity() {
         rootView = findViewById(R.id.root)
         infoTextView = findViewById(R.id.tv_info)
 
-        updateCounter(intent.getStringExtra("counterValue")?.toInt() ?: counter)
+        updateCounter(intent.getIntExtra("newValue", counterValue))
+        updateCounter(intent.getIntExtra("counterValue", counterValue))
         intent.getStringExtra("textColor")?.let { setTxtColor(it) }
         intent.getStringExtra("bckgrndColor")?.let { setBg(it) }
-
 
         findViewById<View>(R.id.button_edit).setOnClickListener {
             startActivity(startForResultActivity)
         }
 
         findViewById<View>(R.id.btn_counter_minus).setOnClickListener {
-            updateCounter(counter - STEP_OF_THE_COUNTER)
+            updateCounter(counterValue - STEP_OF_THE_COUNTER)
         }
         findViewById<View>(R.id.btn_counter_plus).setOnClickListener {
-            updateCounter(counter + STEP_OF_THE_COUNTER)
+            updateCounter(counterValue + STEP_OF_THE_COUNTER)
 
         }
         findViewById<View>(R.id.btn_counter_rnd).setOnClickListener {
@@ -54,7 +52,7 @@ class CounterActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.button_share).setOnClickListener {
             val share = Intent(Intent.ACTION_SEND)
-            val shareBody = counter.toString()
+            val shareBody = counterValue.toString()
             share.type = "text/plain"
             share.putExtra(Intent.EXTRA_TEXT, shareBody)
             startActivity(Intent.createChooser(share, shareBody))
@@ -62,7 +60,7 @@ class CounterActivity : AppCompatActivity() {
     }
 
     private fun updateCounter(value: Int) {
-        counter = value
+        counterValue = value
         infoTextView.text = value.toString()
     }
 
@@ -71,14 +69,15 @@ class CounterActivity : AppCompatActivity() {
     }
 
     fun setTxtColor(colorText: String) {
-        when (colorText) {
-            "r" -> infoTextView.setTextColor(Color.RED)
-            "g" -> infoTextView.setTextColor(Color.GREEN)
-            "b" -> infoTextView.setTextColor(Color.BLUE)
-            "m" -> infoTextView.setTextColor(Color.MAGENTA)
-            else -> infoTextView.setTextColor(Color.BLACK)
+        val setColor = when (colorText) {
+            "r" -> Color.RED
+            "g" -> Color.GREEN
+            "b" -> Color.BLUE
+            "m" -> Color.MAGENTA
+            else -> Color.BLACK
         }
-        txtColor = colorText
+        txtColor = setColor.toString()
+        infoTextView.setTextColor(setColor)
     }
 
     fun colorBg(view: View) {
@@ -86,13 +85,14 @@ class CounterActivity : AppCompatActivity() {
     }
 
     fun setBg(colorBg: String) {
-        when (colorBg) {
-            "1" -> rootView.setBackgroundColor(getColor(R.color.white_204))
-            "2" -> rootView.setBackgroundColor(getColor(R.color.white_221))
-            "3" -> rootView.setBackgroundColor(getColor(R.color.white_238))
-            else -> rootView.setBackgroundColor(getColor(R.color.white))
+        val setColor = when (colorBg) {
+            "1" -> getColor(R.color.white_204)
+            "2" -> getColor(R.color.white_221)
+            "3" -> getColor(R.color.white_238)
+            else -> getColor(R.color.white)
         }
-        backGroundColor = colorBg
+        backGroundColor = setColor.toString()
+        rootView.setBackgroundColor(setColor)
     }
 
     companion object {
@@ -107,7 +107,7 @@ class CounterActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(COUNTER_VALUE, counter)
+        outState.putInt(COUNTER_VALUE, counterValue)
         outState.putString(COLOR_TEXT, txtColor)
         outState.putString(COLOR_BACKGR, backGroundColor)
         super.onSaveInstanceState(outState)

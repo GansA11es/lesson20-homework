@@ -1,6 +1,5 @@
 package com.example.lessson17
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -18,7 +17,6 @@ class ImageActivity : AppCompatActivity() {
     private lateinit var imageZooMap: Map<String, Int>
     private lateinit var imageView: ImageView
 
-    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image)

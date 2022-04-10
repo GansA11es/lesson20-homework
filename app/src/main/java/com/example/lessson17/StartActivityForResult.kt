@@ -29,7 +29,7 @@ class StartActivityForResult : AppCompatActivity() {
         val newCounter: EditText = findViewById(R.id.editNumber)
 
         if (valueNotBlanked(newCounter)) {
-            newCounterActivity.putExtra("value", newCounter.text.toString())
+            newCounterActivity.putExtra("newValue", newCounter.text.toString().toInt())
             startActivity(newCounterActivity)
         } else {
             errorText.text = "Value is blanked"
